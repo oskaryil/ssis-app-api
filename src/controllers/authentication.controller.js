@@ -4,7 +4,6 @@
 
 import HTTPStatus from 'http-status';
 import Joi from 'joi';
-import User from '../models/user.model';
 
 export const validation = {
   login: {
