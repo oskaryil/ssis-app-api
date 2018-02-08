@@ -1,6 +1,7 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
+import request from 'superagent';
 
 import User from '../models/user.model';
 import constants from '../config/constants';
@@ -17,14 +18,27 @@ const localLogin = new LocalStrategy(
       const user = await User.findOne({ username });
 
       if (!user) {
-        return done(null, false);
+        let { res: { text } } = await request
+          .post('https://api.ssis.nu/login/')
+          .send({ user: username, pass: password });
+        text = JSON.parse(text);
+        if (text.result !== 'OK') {
+          throw new Error('Login fail');
+        }
+        const userData = {
+          username,
+          password,
+          email: `${username}@stockholmscience.se`,
+        };
+        const createdUser = await User.create(userData);
+        return done(null, createdUser);
       } else if (!user.authenticateUser(password)) {
         return done(null, false);
       }
 
       return done(null, user);
     } catch (e) {
-      return done(e, false);
+      return done(null, false);
     }
   },
 );

@@ -14,8 +14,8 @@ export const validation = {
   create: {
     body: {
       password: Joi.string()
-        .min(6)
-        .regex(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)
+        .min(2)
+        // .regex(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)
         .required(),
       username: Joi.string()
         .min(3)
@@ -95,6 +95,7 @@ export const updateInfo = async (req, res, next) => {
         name: body.name,
         class: body.class,
       },
+      { new: true },
     );
     return res
       .status(HTTPStatus.OK)

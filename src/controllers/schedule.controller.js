@@ -12,9 +12,10 @@ export const getCurrentClass = async (req, res, next) => {
     text = JSON.parse(text);
     const schedule = text;
     schedule.push({
-      start_time: '17:00',
-      end_time: '18:00',
+      start_time: '20:00',
+      end_time: '21:00',
       subject: 'Svenska 3',
+      participants: 'Te15b, MWC, Green Corner',
     });
     const now = new Date().getTime();
     let currentClass;
