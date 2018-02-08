@@ -8,6 +8,7 @@ import HTTPStatus from 'http-status';
 import UserRoutes from './user.routes';
 import ProductRoutes from './product.routes';
 import LunchRoutes from './lunch.routes';
+import ScheduleRoutes from './schedule.routes';
 import OrderRoutes from './order.routes';
 import PostRoutes from './post.routes';
 import SeedRoutes from './seed.routes';
@@ -27,6 +28,7 @@ routes.use('/posts', PostRoutes);
 routes.use('/products', ProductRoutes);
 routes.use('/orders', OrderRoutes);
 routes.use('/lunch', LunchRoutes);
+routes.use('/schedule', ScheduleRoutes);
 
 if (isDev || isTest) {
   routes.use('/seeds', SeedRoutes);
