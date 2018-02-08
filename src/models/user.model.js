@@ -1,14 +1,122 @@
 /* eslint-disable import/no-mutable-exports */
 
+import mongoose, { Schema } from 'mongoose';
 import { hashSync, compareSync } from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
-import SQL from 'sql-template-strings';
-import uuidv4 from 'uuid/v4';
+import uniqueValidator from 'mongoose-unique-validator';
 
+import Post from './post.model';
 import constants from '../config/constants';
-import { db } from '../config/database';
 
-export default {
+const UserSchema = new Schema(
+  {
+    // TODO: No need for the user to enter the email since all will be username@stockholmscience.se
+    email: {
+      type: String,
+      unique: true,
+      required: [true, 'Email is required!'],
+      trim: true,
+      validate: {
+        validator(email) {
+          const emailRegex = /^[-a-z0-9%S_+]+(\.[-a-z0-9%S_+]+)*@(?:[a-z0-9-]{1,63}\.){1,125}[a-z]{2,63}$/i;
+          return emailRegex.test(email);
+        },
+        message: '{VALUE} is not a valid email!',
+      },
+    },
+    name: {
+      type: String,
+      trim: true,
+    },
+    username: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required!'],
+      trim: true,
+      minlength: [6, 'Password need to be longer!'],
+      validate: {
+        validator(password) {
+          return password.length >= 6 && password.match(/\d+/g);
+        },
+      },
+    },
+    class: {
+      type: String,
+      requireD: false,
+      trim: true,
+    },
+    favorites: {
+      posts: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Post',
+        },
+      ],
+    },
+  },
+  { timestamps: true },
+);
+
+UserSchema.plugin(uniqueValidator, {
+  message: '{VALUE} already taken!',
+});
+
+// Hash the user password on creation
+UserSchema.pre('save', function(next) {
+  if (this.isModified('password')) {
+    this.password = this._hashPassword(this.password);
+    return next();
+  }
+  return next();
+});
+
+UserSchema.methods = {
+  /**
+   * Favorites actions
+   *
+   * @public
+   */
+  _favorites: {
+    /**
+     * Favorite a post or unfavorite if already here
+     *
+     * @param {String} postId - _id of the post like
+     * @returns {Promise}
+     */
+    async posts(postId) {
+      try {
+        if (this.favorites.posts.indexOf(postId) >= 0) {
+          this.favorites.posts.remove(postId);
+          await Post.decFavoriteCount(postId);
+        } else {
+          await Post.incFavoriteCount(postId);
+          this.favorites.posts.push(postId);
+        }
+
+        return this.save();
+      } catch (err) {
+        return err;
+      }
+    },
+
+    /**
+     * Check if post is favorite by current user.
+     *
+     * @param {String} postId - _id of the post
+     * @returns {Boolean} isFavorite - post is favorite by current user
+     */
+    isPostIsFavorite(postId) {
+      if (this.favorites.posts.indexOf(postId) >= 0) {
+        return true;
+      }
+
+      return false;
+    },
+  },
   /**
    * Authenticate the user
    *
@@ -16,207 +124,70 @@ export default {
    * @param {String} password - provided by the user
    * @returns {Boolean} isMatch - password match
    */
-  authenticateUser(password, hashedPassword) {
-    return compareSync(password, hashedPassword);
+  authenticateUser(password) {
+    return compareSync(password, this.password);
   },
-
   /**
-   * find a user
-   * @param  {String}  field the SQL column which to look up
-   * @param  {String}  data  the data to find
-   * @return {Object|Promise} the user found
+   * Hash the user password
+   *
+   * @private
+   * @param {String} password - user password choose
+   * @returns {String} password - hash password
    */
-  async findOne(field, data) {
-    try {
-      const user = await db.one(
-        `
-        SELECT * FROM users
-        WHERE $1~=$2
-      `,
-        [field, data],
-      );
-      return user;
-    } catch (err) {
-      throw err;
-    }
+  _hashPassword(password) {
+    return hashSync(password);
   },
 
   /**
-   * Parse the user object in data we wanted to send when authenticated
+   * Generate a jwt token for authentication
+   *
+   * @public
+   * @returns {String} token - JWT token
+   */
+  createToken() {
+    return jwt.sign(
+      {
+        _id: this._id,
+      },
+      constants.JWT_SECRET,
+    );
+  },
+
+  /**
+   * Parse the user object in data we wanted to send when is auth
    *
    * @public
    * @returns {Object} User - ready for auth
    */
-  toAuthJSON(user) {
+  toAuthJSON() {
     return {
-      useruuid: user.useruuid,
-      accessToken: user.accesstoken,
-      name: user.name,
-      username: user.username,
-      email: user.email,
+      _id: this._id,
+      token: `JWT ${this.createToken()}`,
     };
   },
 
-  async createUser(data) {
-    try {
-      /*
-        *if (!data.name || !data.email || !data.username || !data.password) {
-        *  throw new Error("Fields are missing");
-        *}
-        */
-      await validateUserData(data);
-      const uuid = uuidv4();
-      // TODO: Refactor these queries to an SQL transaction
-      const userCreateTransaction = await db.tx(async t => {
-        const q1 = await db.none(SQL`
-        INSERT
-         INTO users
-         (useruuid, name, accessToken, email, username, password)
-         VALUES (${uuid}, ${data.name}, ${_createToken(
-          uuid,
-        )}, ${data.email}, ${data.username}, ${_hashPassword(data.password)})
-      `);
-        const q2 = await db.one(SQL`
-        SELECT *
-        FROM users
-        WHERE "useruuid"=${uuid}
-      `);
-        return t.batch([q1, q2]);
-      });
-      return userCreateTransaction[1];
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async createCustomer(uuid, customerId) {
-    try {
-      return db.none(SQL`
-        UPDATE users
-        SET stripe_customer_id = ${customerId}
-        WHERE useruuid = ${uuid}
-      `);
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async deleteUser(uuid) {
-    try {
-      await db.none(SQL`
-        DELETE FROM users
-        WHERE useruuid=${uuid}
-      `);
-      return true;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async updatePassword(data) {
-    try {
-      if (!data.useruuid || !data.password) {
-        throw new Error('useruuid and/or password missing.');
-      }
-      await validatePassword(data.password, 6);
-      const hashedPassword = _hashPassword(data.password);
-      return db.one(SQL`
-        UPDATE users
-        SET password = ${hashedPassword},
-        updatedAt = now()
-        WHERE useruuid = ${data.useruuid}
-        returning useruuid
-      `);
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  async updateEmail(data) {
-    try {
-      if (!data.email || !data.useruuid) {
-        throw new Error('useruuid and/or email is missing');
-      }
-      return db.one(SQL`
-        UPDATE users
-        SET email = ${data.email},
-        updatedat = NOW()
-        WHERE useruuid = ${data.useruuid}
-        returning email
-      `);
-    } catch (err) {
-      throw err;
-    }
+  /**
+   * Parse the user object in data we wanted to send
+   *
+   * @public
+   * @returns {Object} User - ready for populate
+   */
+  toJSON() {
+    return {
+      _id: this._id,
+      username: this.username,
+      name: this.name,
+      class: this.class,
+    };
   },
 };
 
-const validatePassword = (password, minLength) =>
-  new Promise((resolve, reject) => {
-    if (typeof password !== 'string') {
-      reject('Password must be a string');
-    } else if (password.length < minLength && !password.match(/\d+/g)) {
-      reject(
-        `Password must be at least ${minLength} characters long and contain at least one digit`,
-      );
-    } else {
-      resolve();
-    }
-  });
+let User;
 
-const validateEmail = email =>
-  new Promise((resolve, reject) => {
-    if (typeof email !== 'string') {
-      reject('Email must be a string');
-    } else {
-      const emailRegex = /^[-a-z0-9%S_+]+(\.[-a-z0-9%S_+]+)*@(?:[a-z0-9-]{1,63}\.){1,125}[a-z]{2,63}$/i;
-      const isValid = emailRegex.test(email);
-      if (isValid) {
-        resolve();
-      } else {
-        reject('Email is not in the correct format');
-      }
-    }
-  });
+try {
+  User = mongoose.model('User');
+} catch (e) {
+  User = mongoose.model('User', UserSchema);
+}
 
-const validateUserData = data =>
-  new Promise(async (resolve, reject) => {
-    const requiredFields = ['username', 'email', 'password', 'name'];
-    const errors = {};
-    requiredFields.forEach(field => {
-      if (!data[field]) {
-        errors[field] = 'Field is required';
-      }
-    });
-    if (Object.keys(errors).length !== 0 && errors.constructor === Object) {
-      reject(errors);
-    } else {
-      validatePassword(data.password, 6)
-        .then(() => validateEmail(data.email))
-        .then(() => resolve())
-        .catch(err => reject(err));
-    }
-  });
-
-/**
- * Hash the user password
- *
- * @private
- * @param {String} password - user password choose
- * @returns {String} password - hash password
- */
-const _hashPassword = password => hashSync(password);
-
-/**
- * Generate a jwt token for authentication
- *
- * @private
- * @param {String} useruuid
- * @returns {String} token - JWT token
- */
-const _createToken = uuid =>
-  jwt.sign(
-    {
-      uuid,
-    },
-    constants.JWT_SECRET,
-  );
+export default User;

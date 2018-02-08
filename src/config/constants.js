@@ -7,6 +7,7 @@ const WHITELIST = {
   },
   users: {
     create: ['email', 'username', 'password', 'name'],
+    updateInfo: ['name', 'class'],
   },
   products: {
     create: [

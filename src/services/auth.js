@@ -8,16 +8,17 @@ import constants from '../config/constants';
 /**
  * Local Strategy Auth
  */
-const localOpts = { usernameField: 'email' };
+const localOpts = { usernameField: 'username' };
 
 const localLogin = new LocalStrategy(
   localOpts,
-  async (email, password, done) => {
+  async (username, password, done) => {
     try {
-      const user = await User.findOne('email', email);
+      const user = await User.findOne({ username });
+
       if (!user) {
         return done(null, false);
-      } else if (!User.authenticateUser(password, user.password)) {
+      } else if (!user.authenticateUser(password)) {
         return done(null, false);
       }
 
@@ -40,7 +41,8 @@ const jwtOpts = {
 
 const jwtLogin = new JWTStrategy(jwtOpts, async (payload, done) => {
   try {
-    const user = await User.findOne('useruuid', payload.uuid);
+    const user = await User.findById(payload._id);
+
     if (!user) {
       return done(null, false);
     }

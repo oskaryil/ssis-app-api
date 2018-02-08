@@ -9,8 +9,9 @@ import User from '../models/user.model';
 export const validation = {
   login: {
     body: {
-      email: Joi.string()
-        .email()
+      username: Joi.string()
+        .min(3)
+        .max(100)
         .required(),
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{3,30}$/)
@@ -51,7 +52,7 @@ export const validation = {
 export async function login(req, res, next) {
   // const data = await db.one("SELECT * FROM users");
   // console.log(data);
-  res.status(HTTPStatus.OK).json(User.toAuthJSON(req.user));
+  res.status(HTTPStatus.OK).json(req.user.toJSON());
 
   return next();
 }
