@@ -28,10 +28,6 @@ export const getMenu = async () => {
 
       for (let j = 0; j < formatedDay.length; j++) {
         formatedDay[j].split(': ', 3);
-        // fullJson[weekday] = {
-        //   Fisk: formatedDay[j].split(' ', 1)
-        //
-        // };
       }
       formattedDays.push(formatedDay);
     }
@@ -40,11 +36,5 @@ export const getMenu = async () => {
   for (let i = 0; i < formattedDays.length; i++) {
     menu[weekDays[i]] = formattedDays[i];
   }
-  // for (let day in formattedDays) {
-  //   menu[weekDays[day]] = formattedDays[day];
-  // }
-  // let lastLine = sideBar[8].split(/(Kött|Fisk|Veggi)\b/g);
-  // console.log(lastLine[2].split(':', 2));
-  // console.log(lastLine[6].split('\n', 1));
   return menu;
 };

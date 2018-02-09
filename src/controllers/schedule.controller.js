@@ -12,8 +12,8 @@ export const getCurrentClass = async (req, res, next) => {
     text = JSON.parse(text);
     const schedule = text;
     schedule.push({
-      start_time: '20:00',
-      end_time: '21:00',
+      start_time: '07:00',
+      end_time: '09:00',
       subject: 'Svenska 3',
       participants: 'Te15b, MWC, Green Corner',
     });
