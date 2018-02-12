@@ -37,12 +37,7 @@ const UserSchema = new Schema(
       type: String,
       required: [true, 'Password is required!'],
       trim: true,
-      minlength: [6, 'Password need to be longer!'],
-      validate: {
-        validator(password) {
-          return password.length >= 6 && password.match(/\d+/g);
-        },
-      },
+      minlength: [2, 'Password need to be longer!'],
     },
     class: {
       type: String,
