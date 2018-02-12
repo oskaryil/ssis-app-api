@@ -11,14 +11,15 @@ export const getCurrentClass = async (req, res, next) => {
     );
     text = JSON.parse(text);
     const schedule = text;
-    schedule.push({
-      start_time: '07:00',
-      end_time: '09:00',
-      subject: 'Svenska 3',
-      participants: 'Te15b, MWC, Green Corner',
-    });
+    // schedule.push({
+    //   start_time: '07:00',
+    //   end_time: '09:00',
+    //   subject: 'Svenska 3',
+    //   participants: 'Te15b, MWC, Green Corner',
+    // });
     const now = new Date().getTime();
-    let currentClass;
+    let currentClass = {};
+    let upcomingClass = {};
     for (let i = 0; i < schedule.length; i++) {
       const nowDate = new Date();
       const date = `${nowDate.getFullYear()}-0${nowDate.getMonth() +
@@ -33,16 +34,23 @@ export const getCurrentClass = async (req, res, next) => {
       }
       if (now < end && now > start) {
         currentClass = schedule[i];
-        break;
-      } else {
-        // else if (now + 30 * 60 > start) {
-        //   currentClass = schedule[i];
-        //   break;
-        // }
-        currentClass = {};
+      }
+      // else {
+      //   // else if (now + 30 * 60 > start) {
+      //   //   currentClass = schedule[i];
+      //   //   break;
+      //   // }
+      //   currentClass = {};
+      // }
+      if (now > start && now > end) {
+        schedule.shift();
+      }
+      if (now + 60 * 40 >= start) {
+        upcomingClass = schedule[i];
       }
     }
-    return res.status(HTTPStatus.OK).json(currentClass);
+    console.log(currentClass, upcomingClass);
+    return res.status(HTTPStatus.OK).json({ currentClass, upcomingClass });
   } catch (err) {
     err.status = HTTPStatus.BAD_REQUEST;
     next(err);
