@@ -9,7 +9,7 @@ const getHtml = async url => {
 /**
  * Gets the weekly lunch menu from kista.eatery.se
  */
-export const getMenu = async () => {
+const getMenu = async () => {
   const data = await getHtml('http://kista.eatery.se');
   const $ = cheerio.load(data);
   const fullSidebar = $('.sidebar').text();
@@ -23,7 +23,6 @@ export const getMenu = async () => {
       // let weekday = i - 2;
       let formatedDay = sideBar[i].split('\n', 6);
       formatedDay = formatedDay.filter(e => e !== '');
-      formatedDay.shift();
       formatedDay.pop();
 
       for (let j = 0; j < formatedDay.length; j++) {
@@ -36,5 +35,10 @@ export const getMenu = async () => {
   for (let i = 0; i < formattedDays.length; i++) {
     menu[weekDays[i]] = formattedDays[i];
   }
+  // Below is very static and may need a change
+  menu.Fredag.pop();
   return menu;
+};
+module.exports = {
+  getMenu,
 };
