@@ -6,10 +6,14 @@
 
 import mongoose from 'mongoose';
 import pg from 'pg-promise';
+import redis from 'redis';
 import constants from './constants';
 
 // Initialize pg-promise
 const pgp = pg();
+
+// initialize redis
+const redisClient = redis.createClient();
 
 const db = pgp(constants.POSTGRES_URL);
 
@@ -36,4 +40,4 @@ mongoose.connection
     throw e;
   });
 
-export { db };
+export { db, redisClient };
