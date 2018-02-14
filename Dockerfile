@@ -9,11 +9,10 @@ WORKDIR /app
 ADD package.json yarn.lock /app/
 
 RUN yarn -D --pure-lockfile
-RUN yarn global add pm2
+RUN yarn global add nodemon
 
 COPY . /app/
 
 EXPOSE 4000
 
-CMD ["yarn", "build"]
-CMD ["pm2", "start", "processes.json", "--no-daemon"]
+CMD ["yarn", "start:dev"]
