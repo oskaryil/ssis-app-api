@@ -17,6 +17,7 @@ services:
     environment:
       - MONGO_URL_DEV=mongodb://mongo/ssis-app-api-dev
       - MONGO_URL_PROD=mongodb://mongo/ssis-app-api-prod
+      - REDIS_HOST_DEV=redis
       - NODE_ENV=development
 
     depends_on:
