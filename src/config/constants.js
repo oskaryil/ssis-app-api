@@ -47,6 +47,7 @@ const devConfig = {
   MONGO_URL: process.env.MONGO_URL_DEV,
   POSTGRES_URL: process.env.POSTGRES_URL_DEV,
   STRIPE_SECRET: process.env.STRIPE_TEST_SECRET,
+  REDIS_HOST_DEV: process.env.REDIS_HOST_DEV,
 };
 
 const testConfig = {
