@@ -13,7 +13,7 @@ import constants from './constants';
 const pgp = pg();
 
 // initialize redis
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({ host: constants.REDIS_HOST_DEV });
 
 const db = pgp(constants.POSTGRES_URL);
 
