@@ -7,7 +7,7 @@
     "security-check": "nsp check",
     "build": "webpack",
     "start": "node dist/index.bundle.js",
-    "start:dev": "npm-run-all --parallel security-check webpack:watch start:bundle lint:watch",
+    "start:dev": "npm-run-all --parallel webpack:watch start:bundle lint:watch",
     "start:bundle": "NODE_ENV=development nodemon -L dist/index.bundle.js",
     "webpack:watch": "webpack -w",
     "lint": "esw webpack.config, src --color",
