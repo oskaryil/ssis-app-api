@@ -1,15 +1,13 @@
 --WIP
 
-# JIRA issue
-
-[PANSWE-](https://pantapasen.atlassian.net/browse/PANSWE-)
+# Trello Card 
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
 
 ## Make sure the following is correct before submitting this PR
 
-- [ ] Your PR is properly named: "PANSWE-## A short description". Should follow the "Verb in present tense" format (Examples: "PANSWE-102 Add new map for..." , "PANSWE-103 Delete legacy code in tests for..."
+- [ ] Your PR is properly named: "Trello-## A short description". Should follow the "Verb in present tense" format (Examples: "Trello-102 Add new map for..." , "Trello-103 Delete legacy code in tests for..."
 - [ ] Linting and tests for environment pass.
 - [ ] Assign a reviewer (After agreement with the person)
 - [ ] The branch is rebased on the current master branch
