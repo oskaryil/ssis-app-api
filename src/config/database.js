@@ -5,17 +5,23 @@
  */
 
 import mongoose from 'mongoose';
-import pg from 'pg-promise';
+// import pg from 'pg-promise';
 import redis from 'redis';
+import { Model } from 'objection';
+
+import KNEX from '../db/knex';
 import constants from './constants';
 
 // Initialize pg-promise
-const pgp = pg();
+// const pgp = pg();
 
 // initialize redis
 const redisClient = redis.createClient({ host: constants.REDIS_HOST_DEV });
 
-const db = pgp(constants.POSTGRES_URL);
+// initialize objection
+Model.knex(KNEX);
+
+// const db = pgp(constants.POSTGRES_URL);
 
 // Remove the warning with Promise
 mongoose.Promise = global.Promise;
@@ -40,4 +46,4 @@ mongoose.connection
     throw e;
   });
 
-export { db, redisClient };
+export { redisClient };
