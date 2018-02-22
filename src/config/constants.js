@@ -68,6 +68,7 @@ const prodConfig = {
 const defaultConfig = {
   PORT: process.env.PORT || 4000,
   RAVEN_ID: process.env.RAVEN_ID,
+  ENV: process.env.NODE_ENV || 'development',
   WHITELIST,
 };
 
