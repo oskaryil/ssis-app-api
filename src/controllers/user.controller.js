@@ -9,6 +9,8 @@ import request from 'superagent';
 import { filteredBody } from '../utils/filteredBody';
 import constants from '../config/constants';
 import User from '../models/user.model';
+import { tryCatch } from '../utils/asyncUtils';
+import { updateUserInfo } from '../helpers/auth.helper';
 
 export const validation = {
   create: {
@@ -88,20 +90,31 @@ export async function create(req, res, next) {
 
 export const updateInfo = async (req, res, next) => {
   const body = filteredBody(req.body, constants.WHITELIST.users.updateInfo);
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: req.user._id },
-      {
-        name: body.name,
-        class: body.class,
-      },
-      { new: true },
-    );
+  return tryCatch(async () => {
+    const updatedUser = await updateUserInfo({
+      updateData: body,
+      userId: req.user.id,
+    });
     return res
       .status(HTTPStatus.OK)
-      .json({ message: 'Updated user', user: updatedUser.toJSON() });
-  } catch (err) {
-    err.status = HTTPStatus.BAD_REQUEST;
-    return next(err);
-  }
+      .json({ message: 'Updated user', user: updatedUser });
+  })(err => {
+    next(err);
+  });
+  // try {
+  //   const updatedUser = await User.findOneAndUpdate(
+  //     { _id: req.user._id },
+  //     {
+  //       name: body.name,
+  //       class: body.class,
+  //     },
+  //     { new: true },
+  //   );
+  //   return res
+  //     .status(HTTPStatus.OK)
+  //     .json({ message: 'Updated user', user: updatedUser.toJSON() });
+  // } catch (err) {
+  //   err.status = HTTPStatus.BAD_REQUEST;
+  //   return next(err);
+  // }
 };

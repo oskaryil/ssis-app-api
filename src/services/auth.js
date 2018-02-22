@@ -5,6 +5,7 @@ import request from 'superagent';
 
 import User from '../models/user.model';
 import constants from '../config/constants';
+import { createUser } from '../helpers/auth.helper';
 
 /**
  * Local Strategy Auth
@@ -15,28 +16,19 @@ const localLogin = new LocalStrategy(
   localOpts,
   async (username, password, done) => {
     try {
-      const user = await User.findOne({ username });
+      const user = await User.query().where('username', username);
 
-      if (!user) {
-        let { res: { text } } = await request
-          .post('https://api.ssis.nu/login/')
-          .send({ user: username, pass: password });
-        text = JSON.parse(text);
-        if (text.result !== 'OK') {
-          throw new Error('Login fail');
-        }
+      if (user.length === 0) {
         const userData = {
           username,
           password,
-          email: `${username}@stockholmscience.se`,
         };
-        const createdUser = await User.create(userData);
+        const createdUser = await createUser(userData);
         return done(null, createdUser);
-      } else if (!user.authenticateUser(password)) {
+      } else if (!user[0].authenticateUser(password)) {
         return done(null, false);
       }
-
-      return done(null, user);
+      return done(null, user[0]);
     } catch (e) {
       return done(null, false);
     }
@@ -55,14 +47,17 @@ const jwtOpts = {
 
 const jwtLogin = new JWTStrategy(jwtOpts, async (payload, done) => {
   try {
-    const user = await User.findById(payload._id);
+    console.log(payload);
+    const user = await User.query().where('user_uuid', payload.user_uuid);
+    console.log(user[0].toJSON());
 
-    if (!user) {
+    if (user.length === 0 || !user) {
       return done(null, false);
     }
 
-    return done(null, user);
+    return done(null, user[0]);
   } catch (e) {
+    console.log(e);
     return done(e, false);
   }
 });

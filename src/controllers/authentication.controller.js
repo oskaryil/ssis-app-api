@@ -49,7 +49,7 @@ export const validation = {
 export async function login(req, res, next) {
   // const data = await db.one("SELECT * FROM users");
   // console.log(data);
-  return res.status(HTTPStatus.OK).json(req.user.toJSON());
+  return res.status(HTTPStatus.OK).json(req.user.toAuthJSON());
 
   // return next();
 }
