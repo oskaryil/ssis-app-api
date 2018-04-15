@@ -11,10 +11,8 @@ import methodOverride from 'method-override';
 import helmet from 'helmet';
 import cors from 'cors';
 // import expressStatusMonitor from 'express-status-monitor';
-import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 
 import winstonInstance from './winston';
-import { schema } from '../graphql/schema';
 
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = process.env.NODE_ENV === 'development';
@@ -28,18 +26,18 @@ export default app => {
   app.use(cors());
   // app.use(expressStatusMonitor());
   app.use(methodOverride());
-  app.use(
-    '/graphql',
-    graphqlExpress({
-      schema,
-    }),
-  );
-  app.use(
-    '/graphiql',
-    graphiqlExpress({
-      endpointURL: '/graphql',
-    }),
-  );
+  // app.use(
+  //   '/graphql',
+  //   graphqlExpress({
+  //     schema,
+  //   }),
+  // );
+  // app.use(
+  //   '/graphiql',
+  //   graphiqlExpress({
+  //     endpointURL: '/graphql',
+  //   }),
+  // );
   if (isDev && !isTest) {
     app.use(morgan('dev'));
     expressWinston.requestWhitelist.push('body');
