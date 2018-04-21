@@ -1,6 +1,9 @@
 import HTTPStatus from 'http-status';
 import request from 'superagent';
 
+import { getFullScheduleForClass } from '../services/schedule';
+import { redisClient } from '../config/database';
+
 /**
  * Function for getting the current class relative to the current time
  */
@@ -48,3 +51,21 @@ export const getCurrentClass = async (req, res, next) => {
     next(err);
   }
 };
+
+export async function getFullSchedule(req, res, next) {
+  try {
+    const SCHEDULE_CACHE_KEY = `schedule_${req.user
+      .class}_${new Date().getDay()}`;
+    redisClient.get(SCHEDULE_CACHE_KEY, async (err, result) => {
+      if (result) {
+        return res.status(HTTPStatus.OK).json(JSON.parse(result));
+      }
+      const schedule = await getFullScheduleForClass(req.user.class);
+      redisClient.setex(SCHEDULE_CACHE_KEY, 86400, JSON.stringify(schedule));
+      return res.status(HTTPStatus.OK).json(schedule);
+    });
+  } catch (err) {
+    err.status = HTTPStatus.BAD_REQUEST;
+    return next(err);
+  }
+}
