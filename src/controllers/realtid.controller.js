@@ -40,7 +40,7 @@ export const getDeparturesForSite = async (req, res) => {
   try {
     const sites = {
       'kista centrum': 9302,
-      'kista alléväg': 7347,
+      'kista alléväg': 3747,
     };
     const site = sites[req.query.site.toLowerCase()];
     const departures = await getDepartures({
