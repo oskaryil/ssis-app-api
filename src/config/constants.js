@@ -69,6 +69,7 @@ const defaultConfig = {
   PORT: process.env.PORT || 4000,
   RAVEN_ID: process.env.RAVEN_ID,
   ENV: process.env.NODE_ENV || 'development',
+  SL_REALTID_API_KEY: process.env.SL_REALTID_API_KEY,
   WHITELIST,
 };
 
