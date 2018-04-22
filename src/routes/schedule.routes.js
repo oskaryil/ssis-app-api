@@ -1,5 +1,5 @@
 /**
- * Lunch Routes
+ * Schedule Routes
  */
 
 import { Router } from 'express';
