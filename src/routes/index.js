@@ -12,6 +12,7 @@ import ScheduleRoutes from './schedule.routes';
 import OrderRoutes from './order.routes';
 import PostRoutes from './post.routes';
 import SeedRoutes from './seed.routes';
+import RealtidRoutes from './realtid.routes';
 
 import APIError from '../services/error';
 
@@ -29,6 +30,7 @@ routes.use('/products', ProductRoutes);
 routes.use('/orders', OrderRoutes);
 routes.use('/lunch', LunchRoutes);
 routes.use('/schedule', ScheduleRoutes);
+routes.use('/realtid', RealtidRoutes);
 
 if (isDev || isTest) {
   routes.use('/seeds', SeedRoutes);
