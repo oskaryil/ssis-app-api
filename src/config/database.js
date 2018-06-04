@@ -16,7 +16,7 @@ import constants from './constants';
 // const pgp = pg();
 
 // initialize redis
-const redisClient = redis.createClient({ host: constants.REDIS_HOST_DEV });
+const redisClient = redis.createClient({ host: constants.REDIS_HOST });
 
 // initialize objection
 Model.knex(KNEX);

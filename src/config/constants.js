@@ -47,7 +47,7 @@ const devConfig = {
   MONGO_URL: process.env.MONGO_URL_DEV,
   POSTGRES_URL: process.env.POSTGRES_URL_DEV,
   STRIPE_SECRET: process.env.STRIPE_TEST_SECRET,
-  REDIS_HOST_DEV: process.env.REDIS_HOST_DEV,
+  REDIS_HOST: process.env.REDIS_HOST_DEV,
 };
 
 const testConfig = {
@@ -63,6 +63,7 @@ const prodConfig = {
   MONGO_URL: process.env.MONGO_URL_PROD,
   POSTGRES_URL: process.env.POSTGRES_URL_PROD,
   STRIPE_SECRET: process.env.STRIPE_LIVE_SECRET,
+  REDIS_HOST: process.env.REDIS_HOST_PROD,
 };
 
 const defaultConfig = {
