@@ -8,6 +8,7 @@ const eventTypes = {
   MARKED_AS_DONE: "marked_as_done",
   MARKED_AS_UNDONE: "marked_as_undone",
   UPDATE_TODO_TITLE: "update_todo_title",
+  UPDATE_TODO_DUE_DATE: "update_todo_due_date",
 };
 
 /**
@@ -19,12 +20,14 @@ const eventTypes = {
  */
 const createTodo = async (req, res, next) => {
   try {
-    const { title } = req.body;
+    const { title, dueDate } = req.body;
 
     const newTodo = new Todo();
     const newEvent = new Event({ name: eventTypes.CREATE_TODO });
 
     newTodo.title = title;
+    newTodo.dueDate = dueDate;
+    newTodo.createdBy = req.user.id;
     await newTodo.save();
     await newEvent.save();
 
@@ -81,6 +84,12 @@ const updateTodo = async (req, res, next) => {
           name: eventTypes.UPDATE_TODO_TITLE,
         });
         await newUpdateTitleEvent.save();
+      }
+      if (newTodoData.dueDate) {
+        const newUpdateDueDateEvent = new Event({
+          name: eventTypes.UPDATE_TODO_DUE_DATE,
+        });
+        await newUpdateDueDateEvent.save();
       }
 
       if (
