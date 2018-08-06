@@ -14,6 +14,7 @@ import PostRoutes from "./post.routes";
 import SeedRoutes from "./seed.routes";
 import RealtidRoutes from "./realtid.routes";
 import TodoRoutes from "./todo.routes";
+import EventRoutes from "./event.routes";
 
 import APIError from "../services/error";
 
@@ -33,6 +34,7 @@ routes.use("/lunch", LunchRoutes);
 routes.use("/schedule", ScheduleRoutes);
 routes.use("/realtid", RealtidRoutes);
 routes.use("/todo", TodoRoutes);
+routes.use("/events", EventRoutes);
 
 if (isDev || isTest) {
   routes.use("/seeds", SeedRoutes);
