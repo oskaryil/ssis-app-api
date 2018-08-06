@@ -1,12 +1,12 @@
 /* eslint-disable import/no-mutable-exports */
 
-import { hashSync, compareSync } from 'bcrypt-nodejs';
-import jwt from 'jsonwebtoken';
-import SQL from 'sql-template-strings';
-import uuidv4 from 'uuid/v4';
+import { hashSync, compareSync } from "bcrypt-nodejs";
+import jwt from "jsonwebtoken";
+import SQL from "sql-template-strings";
+import uuidv4 from "uuid/v4";
 
-import constants from '../config/constants';
-import { db } from '../config/database';
+import constants from "../config/constants";
+import { db } from "../config/database";
 
 export default {
   /**
@@ -116,7 +116,7 @@ export default {
   async updatePassword(data) {
     try {
       if (!data.useruuid || !data.password) {
-        throw new Error('useruuid and/or password missing.');
+        throw new Error("useruuid and/or password missing.");
       }
       await validatePassword(data.password, 6);
       const hashedPassword = _hashPassword(data.password);
@@ -135,7 +135,7 @@ export default {
   async updateEmail(data) {
     try {
       if (!data.email || !data.useruuid) {
-        throw new Error('useruuid and/or email is missing');
+        throw new Error("useruuid and/or email is missing");
       }
       return db.one(SQL`
         UPDATE users
@@ -152,8 +152,8 @@ export default {
 
 const validatePassword = (password, minLength) =>
   new Promise((resolve, reject) => {
-    if (typeof password !== 'string') {
-      reject('Password must be a string');
+    if (typeof password !== "string") {
+      reject("Password must be a string");
     } else if (password.length < minLength && !password.match(/\d+/g)) {
       reject(
         `Password must be at least ${minLength} characters long and contain at least one digit`,
@@ -165,26 +165,26 @@ const validatePassword = (password, minLength) =>
 
 const validateEmail = email =>
   new Promise((resolve, reject) => {
-    if (typeof email !== 'string') {
-      reject('Email must be a string');
+    if (typeof email !== "string") {
+      reject("Email must be a string");
     } else {
       const emailRegex = /^[-a-z0-9%S_+]+(\.[-a-z0-9%S_+]+)*@(?:[a-z0-9-]{1,63}\.){1,125}[a-z]{2,63}$/i;
       const isValid = emailRegex.test(email);
       if (isValid) {
         resolve();
       } else {
-        reject('Email is not in the correct format');
+        reject("Email is not in the correct format");
       }
     }
   });
 
 const validateUserData = data =>
   new Promise(async (resolve, reject) => {
-    const requiredFields = ['username', 'email', 'password', 'name'];
+    const requiredFields = ["username", "email", "password", "name"];
     const errors = {};
     requiredFields.forEach(field => {
       if (!data[field]) {
-        errors[field] = 'Field is required';
+        errors[field] = "Field is required";
       }
     });
     if (Object.keys(errors).length !== 0 && errors.constructor === Object) {

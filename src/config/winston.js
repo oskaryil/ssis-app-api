@@ -2,7 +2,7 @@
  * Create the winston logger instance
  */
 
-import winston from 'winston';
+import winston from "winston";
 
 const logger = new winston.Logger({
   transports: [

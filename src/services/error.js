@@ -1,4 +1,4 @@
-import httpStatus from 'http-status';
+import httpStatus from "http-status";
 
 /**
  * @extends Error
@@ -53,7 +53,7 @@ export class RequiredError {
   static makePretty(errors) {
     return errors.reduce((obj, error) => {
       const nObj = obj;
-      nObj[error.field] = error.messages[0].replace(/"/g, '');
+      nObj[error.field] = error.messages[0].replace(/"/g, "");
       return nObj;
     }, {});
   }

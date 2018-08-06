@@ -1,8 +1,8 @@
-import HTTPStatus from 'http-status';
-import request from 'superagent';
+import HTTPStatus from "http-status";
+import request from "superagent";
 
-import { getFullScheduleForClass } from '../services/schedule';
-import { redisClient } from '../config/database';
+import { getFullScheduleForClass } from "../services/schedule";
+import { redisClient } from "../config/database";
 
 /**
  * Function for getting the current class relative to the current time
@@ -15,10 +15,10 @@ export const getCurrentClass = async (req, res, next) => {
     text = JSON.parse(text);
     const schedule = text;
     schedule.push({
-      start_time: '07:00',
-      end_time: '09:00',
-      subject: 'Svenska 3',
-      participants: 'Te15b, MWC, Green Corner',
+      start_time: "07:00",
+      end_time: "09:00",
+      subject: "Svenska 3",
+      participants: "Te15b, MWC, Green Corner",
     });
     const now = new Date().getTime();
     let currentClass;

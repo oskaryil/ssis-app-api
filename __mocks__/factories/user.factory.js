@@ -2,9 +2,9 @@
  * Create fake user for testing
  */
 
-import faker from 'faker';
+import faker from "faker";
 
-import BaseFactory from './base.factory';
+import BaseFactory from "./base.factory";
 
 class UserFactory extends BaseFactory {
   /**
@@ -19,7 +19,7 @@ class UserFactory extends BaseFactory {
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       username: faker.internet.userName(),
       email: faker.internet.email(),
-      password: 'password1',
+      password: "password1",
       uuid: faker.random.uuid(),
       ...attrs,
     };

@@ -27,16 +27,16 @@
  * SL Realtid Routes
  */
 
-import { Router } from 'express';
-import validate from 'express-validation';
+import { Router } from "express";
+import validate from "express-validation";
 
-import * as RealtidController from '../controllers/realtid.controller';
-import { authJwt } from '../services/auth';
+import * as RealtidController from "../controllers/realtid.controller";
+import { authJwt } from "../services/auth";
 
 const routes = new Router();
 
 routes
-  .route('/')
+  .route("/")
   .get(
     authJwt,
     validate(RealtidController.validation.getDepartures),

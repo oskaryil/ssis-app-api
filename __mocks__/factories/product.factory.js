@@ -2,9 +2,9 @@
  * Product Factory
 */
 
-import faker from 'faker';
+import faker from "faker";
 
-import BaseFactory from './base.factory';
+import BaseFactory from "./base.factory";
 
 class ProductFactory extends BaseFactory {
   generate(attrs) {

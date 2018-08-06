@@ -15,15 +15,14 @@
     "generate:docs": "apidoc -i src",
     "deploy:docs": "surge ./doc -d nodeecommerce.surge.sh",
     "docs": "npm-run-all --parallel generate:docs deploy:docs",
-    "test": "NODE_ENV=test mocha $(find __tests__ -name *.test.js) --colors --require babel-register --exit --timeout 6000",
+    "test":
+      "NODE_ENV=test mocha $(find __tests__ -name *.test.js) --colors --require babel-register --exit --timeout 6000",
     "precommit": "lint-staged",
-    "prettier": "prettier --single-quote --print-width 80 --trailing-comma all --write '{src,__{tests,mocks}__}/**/*.js'"
+    "prettier":
+      "prettier --print-width 80 --trailing-comma all --write '{src,__{tests,mocks}__}/**/*.js'"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "npm run prettier",
-      "git add"
-    ]
+    "src/**/*.js": ["npm run prettier", "git add"]
   },
   "pre-commit": "precommit",
   "keywords": [],

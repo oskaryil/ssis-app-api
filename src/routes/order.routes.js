@@ -2,16 +2,16 @@
  * Order Routes
  */
 
-import { Router } from 'express';
-import validate from 'express-validation';
+import { Router } from "express";
+import validate from "express-validation";
 
-import * as OrderController from '../controllers/order.controller';
-import { authJwt } from '../services/auth';
+import * as OrderController from "../controllers/order.controller";
+import { authJwt } from "../services/auth";
 
 const routes = new Router();
 
 routes
-  .route('/')
+  .route("/")
   .post(
     authJwt,
     validate(OrderController.validation),

@@ -2,8 +2,8 @@
  * Authentication controller
  */
 
-import HTTPStatus from 'http-status';
-import Joi from 'joi';
+import HTTPStatus from "http-status";
+import Joi from "joi";
 
 export const validation = {
   login: {

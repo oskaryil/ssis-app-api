@@ -1,16 +1,16 @@
-import Joi from 'joi';
-import HTTPStatus from 'http-status';
+import Joi from "joi";
+import HTTPStatus from "http-status";
 
-import Order from '../models/order.model.js';
-import { filteredBody } from '../utils/filteredBody';
-import constants from '../config/constants';
-import { createCharge, createCustomer } from '../services/payment';
+import Order from "../models/order.model.js";
+import { filteredBody } from "../utils/filteredBody";
+import constants from "../config/constants";
+import { createCharge, createCustomer } from "../services/payment";
 
 export const validation = {
   create: {
     body: {
       cart: Joi.object().required(),
-      transaction_id: Joi.string().guid({ version: 'uuidv4' }),
+      transaction_id: Joi.string().guid({ version: "uuidv4" }),
       shipping_address: Joi.object().required(),
       billing_address: Joi.object().required(),
       stripeToken: Joi.string().required(),
@@ -42,7 +42,7 @@ export const createOrder = async (req, res, next) => {
     });
     return res
       .status(HTTPStatus.CREATED)
-      .json({ message: 'Order created', order });
+      .json({ message: "Order created", order });
   } catch (err) {
     err.status = HTTPStatus.BAD_REQUEST;
     next(err);

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 
 const TodoSchema = new mongoose.Schema(
   {
@@ -29,4 +29,4 @@ const TodoSchema = new mongoose.Schema(
 
 TodoSchema.plugin(uniqueValidator);
 
-export default mongoose.model('Todo', TodoSchema);
+export default mongoose.model("Todo", TodoSchema);

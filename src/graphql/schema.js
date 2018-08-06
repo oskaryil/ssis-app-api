@@ -1,6 +1,6 @@
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from "graphql-tools";
 
-import { resolvers } from './resolvers'; // Will be implemented at a later stage.
+import { resolvers } from "./resolvers"; // Will be implemented at a later stage.
 
 const typeDefs = `
     scalar Date

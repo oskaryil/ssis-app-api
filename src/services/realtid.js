@@ -23,9 +23,9 @@
  *
  */
 
-import request from 'superagent';
+import request from "superagent";
 
-import constants from '../config/constants';
+import constants from "../config/constants";
 
 /**
  * @function getDepartures

@@ -2,13 +2,13 @@
  * Post Controller
  */
 
-import Joi from 'joi';
-import HTTPStatus from 'http-status';
-import contants from '../config/constants';
+import Joi from "joi";
+import HTTPStatus from "http-status";
+import contants from "../config/constants";
 
-import { filteredBody } from '../utils/filteredBody';
-import Post from '../models/post.model';
-import User from '../models/user.model';
+import { filteredBody } from "../utils/filteredBody";
+import Post from "../models/post.model";
+import User from "../models/user.model";
 
 export const validation = {
   create: {
@@ -163,7 +163,7 @@ export async function getById(req, res, next) {
   try {
     const promise = await Promise.all([
       User.findById(req.user._id),
-      Post.findById(req.params.id).populate('author'),
+      Post.findById(req.params.id).populate("author"),
     ]);
     const favorite = promise[0]._favorites.isPostIsFavorite(req.params.id);
     return res.status(HTTPStatus.OK).json({

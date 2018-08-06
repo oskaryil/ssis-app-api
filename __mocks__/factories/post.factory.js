@@ -2,9 +2,9 @@
  * Create fake post for testing
  */
 
-import faker from 'faker';
+import faker from "faker";
 
-import BaseFactory from './base.factory';
+import BaseFactory from "./base.factory";
 
 class PostFactory extends BaseFactory {
   /**

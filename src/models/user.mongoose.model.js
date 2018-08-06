@@ -1,12 +1,12 @@
 /* eslint-disable import/no-mutable-exports */
 
-import mongoose, { Schema } from 'mongoose';
-import { hashSync, compareSync } from 'bcrypt-nodejs';
-import jwt from 'jsonwebtoken';
-import uniqueValidator from 'mongoose-unique-validator';
+import mongoose, { Schema } from "mongoose";
+import { hashSync, compareSync } from "bcrypt-nodejs";
+import jwt from "jsonwebtoken";
+import uniqueValidator from "mongoose-unique-validator";
 
-import Post from './post.model';
-import constants from '../config/constants';
+import Post from "./post.model";
+import constants from "../config/constants";
 
 const UserSchema = new Schema(
   {
@@ -14,14 +14,14 @@ const UserSchema = new Schema(
     email: {
       type: String,
       unique: true,
-      required: [true, 'Email is required!'],
+      required: [true, "Email is required!"],
       trim: true,
       validate: {
         validator(email) {
           const emailRegex = /^[-a-z0-9%S_+]+(\.[-a-z0-9%S_+]+)*@(?:[a-z0-9-]{1,63}\.){1,125}[a-z]{2,63}$/i;
           return emailRegex.test(email);
         },
-        message: '{VALUE} is not a valid email!',
+        message: "{VALUE} is not a valid email!",
       },
     },
     name: {
@@ -35,9 +35,9 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, 'Password is required!'],
+      required: [true, "Password is required!"],
       trim: true,
-      minlength: [2, 'Password need to be longer!'],
+      minlength: [2, "Password need to be longer!"],
     },
     class: {
       type: String,
@@ -48,7 +48,7 @@ const UserSchema = new Schema(
       posts: [
         {
           type: Schema.Types.ObjectId,
-          ref: 'Post',
+          ref: "Post",
         },
       ],
     },
@@ -57,12 +57,12 @@ const UserSchema = new Schema(
 );
 
 UserSchema.plugin(uniqueValidator, {
-  message: '{VALUE} already taken!',
+  message: "{VALUE} already taken!",
 });
 
 // Hash the user password on creation
-UserSchema.pre('save', function(next) {
-  if (this.isModified('password')) {
+UserSchema.pre("save", function(next) {
+  if (this.isModified("password")) {
     this.password = this._hashPassword(this.password);
     return next();
   }
@@ -182,9 +182,9 @@ UserSchema.methods = {
 let User;
 
 try {
-  User = mongoose.model('User');
+  User = mongoose.model("User");
 } catch (e) {
-  User = mongoose.model('User', UserSchema);
+  User = mongoose.model("User", UserSchema);
 }
 
 export default User;

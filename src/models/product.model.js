@@ -1,19 +1,19 @@
-import mongoose, { Schema } from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-import { slugify } from '../utils/slugify';
+import mongoose, { Schema } from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+import { slugify } from "../utils/slugify";
 
 const ProductSchema = new Schema(
   {
     title: {
       type: String,
       required: true,
-      minLength: [3, 'Product title must be at least 3 characters long.'],
+      minLength: [3, "Product title must be at least 3 characters long."],
       trim: true,
     },
     description: {
       type: String,
       required: true,
-      minLength: [3, 'Product description must be at least 3 characters long.'],
+      minLength: [3, "Product description must be at least 3 characters long."],
     },
     imageUrl: {
       type: String,
@@ -55,10 +55,10 @@ const ProductSchema = new Schema(
 );
 
 ProductSchema.plugin(uniqueValidator, {
-  message: '{VALUE} already exists!',
+  message: "{VALUE} already exists!",
 });
 
-ProductSchema.pre('validate', function(next) {
+ProductSchema.pre("validate", function(next) {
   this.makeSlug();
 
   next();
@@ -83,7 +83,7 @@ ProductSchema.methods = {
   },
 };
 
-ProductSchema.index({ title: 'text', description: 'text' });
-const Product = mongoose.model('Product', ProductSchema);
+ProductSchema.index({ title: "text", description: "text" });
+const Product = mongoose.model("Product", ProductSchema);
 
 export default Product;

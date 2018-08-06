@@ -1,7 +1,7 @@
-import SQL from 'sql-template-strings';
-import uuidv4 from 'uuid/v4';
+import SQL from "sql-template-strings";
+import uuidv4 from "uuid/v4";
 
-import { db } from '../config/database';
+import { db } from "../config/database";
 
 export default {
   async createTransaction(data) {
@@ -45,18 +45,18 @@ export default {
 function validadateTransactionData(data) {
   return new Promise(async (resolve, reject) => {
     const requiredFields = [
-      'created_by',
-      'amount',
-      'currency',
-      'stripe_customer_id',
-      'stripe_charge_id',
-      'order_id',
-      'billing_address',
+      "created_by",
+      "amount",
+      "currency",
+      "stripe_customer_id",
+      "stripe_charge_id",
+      "order_id",
+      "billing_address",
     ];
     const errors = {};
     requiredFields.forEach(field => {
       if (!data[field]) {
-        errors[field] = 'Field is required';
+        errors[field] = "Field is required";
       }
     });
     if (Object.keys(errors).length !== 0 && errors.constructor === Object) {

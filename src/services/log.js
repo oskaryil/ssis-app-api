@@ -2,21 +2,21 @@
  * Error handler for api routes
  */
 
-import Raven from 'raven';
-import PrettyError from 'pretty-error';
-import HTTPStatus from 'http-status';
+import Raven from "raven";
+import PrettyError from "pretty-error";
+import HTTPStatus from "http-status";
 
-import constants from '../config/constants';
-import APIError, { RequiredError } from './error';
+import constants from "../config/constants";
+import APIError, { RequiredError } from "./error";
 
-const isProd = process.env.NODE_ENV === 'production';
-const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === "production";
+const isDev = process.env.NODE_ENV === "development";
 
 // eslint-disable-next-line no-unused-vars
 export default function logErrorService(err, req, res, next) {
   if (!err) {
     return new APIError(
-      'Error with the server!',
+      "Error with the server!",
       HTTPStatus.INTERNAL_SERVER_ERROR,
       true,
     );
@@ -30,14 +30,14 @@ export default function logErrorService(err, req, res, next) {
   if (isDev) {
     const pe = new PrettyError();
     pe.skipNodeFiles();
-    pe.skipPackage('express');
+    pe.skipPackage("express");
 
     // eslint-disable-next-line no-console
     console.log(pe.render(err));
   }
 
   const error = {
-    message: err || 'Internal Server Error.',
+    message: err || "Internal Server Error.",
   };
 
   if (err.errors) {

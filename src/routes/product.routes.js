@@ -2,16 +2,16 @@
  * Product Routes
  */
 
-import { Router } from 'express';
-import validate from 'express-validation';
+import { Router } from "express";
+import validate from "express-validation";
 
-import * as ProductController from '../controllers/product.controller';
-import { authJwt } from '../services/auth';
+import * as ProductController from "../controllers/product.controller";
+import { authJwt } from "../services/auth";
 
 const routes = new Router();
 
 routes
-  .route('/')
+  .route("/")
   .post(
     authJwt,
     validate(ProductController.validation.create),
@@ -22,7 +22,7 @@ routes
 // routes.route("/search").get(ProductController.searchProducts);
 
 routes
-  .route('/:id')
+  .route("/:id")
   .delete(authJwt, ProductController.deleteProduct)
   .patch(
     authJwt,

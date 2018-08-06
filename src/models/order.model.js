@@ -1,9 +1,9 @@
-import SQL from 'sql-template-strings';
-import uuidv4 from 'uuid/v4';
-import mongoose from 'mongoose';
+import SQL from "sql-template-strings";
+import uuidv4 from "uuid/v4";
+import mongoose from "mongoose";
 
-import { db } from '../config/database';
-import Product from './product.model';
+import { db } from "../config/database";
+import Product from "./product.model";
 
 export default {
   async createOrder(data) {
@@ -80,11 +80,11 @@ export default {
 // TODO: Write a utility for this function because it is repeating in every model.
 function validateOrderData(data) {
   return new Promise((resolve, reject) => {
-    const requiredFields = ['cart', 'created_by', 'shipping_address'];
+    const requiredFields = ["cart", "created_by", "shipping_address"];
     const errors = {};
     requiredFields.forEach(field => {
       if (!data[field]) {
-        errors[field] = 'Field is required';
+        errors[field] = "Field is required";
       }
     });
     if (Object.keys(errors).length !== 0 && errors.constructor === Object) {

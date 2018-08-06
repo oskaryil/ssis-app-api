@@ -23,9 +23,9 @@
  *
  */
 
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import server from '../../../__mocks__/utils/server.mock';
+import server from "../../../__mocks__/utils/server.mock";
 
 const ENDPOINT = `/users/login`;
 let testUser;
@@ -33,12 +33,12 @@ let testUser;
 describe(`POST ${ENDPOINT}`, () => {
   before(async () => {
     testUser = {
-      username: '15bayi',
+      username: "15bayi",
     };
   });
 
-  describe('create a user', () => {
-    it('should create a user with status 201', done => {
+  describe("create a user", () => {
+    it("should create a user with status 201", done => {
       server
         .post(ENDPOINT)
         .send({ username: testUser.username, password: testUser.password });

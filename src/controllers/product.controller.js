@@ -1,11 +1,11 @@
-import Joi from 'joi';
-import HTTPStatus from 'http-status';
-import { ObjectID } from 'mongodb';
-import constants from '../config/constants';
+import Joi from "joi";
+import HTTPStatus from "http-status";
+import { ObjectID } from "mongodb";
+import constants from "../config/constants";
 
-import { filteredBody } from '../utils/filteredBody';
+import { filteredBody } from "../utils/filteredBody";
 
-import Product from '../models/product.model';
+import Product from "../models/product.model";
 
 export const validation = {
   create: {
@@ -88,7 +88,7 @@ export const createProduct = async (req, res, next) => {
     const newProduct = await Product.createProduct(body, req.user.useruuid);
     res
       .status(HTTPStatus.CREATED)
-      .json({ product: newProduct, message: 'New product created. ' });
+      .json({ product: newProduct, message: "New product created. " });
   } catch (err) {
     return next(err);
   }
@@ -131,7 +131,7 @@ export const deleteProduct = async (req, res, next) => {
     if (!ObjectID.isValid(req.params.id)) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ message: 'Invalid MongoDB ObjectID.' });
+        .json({ message: "Invalid MongoDB ObjectID." });
     }
     const product = await Product.findById(req.params.id);
     // if (!deletedProduct) {
@@ -145,7 +145,7 @@ export const deleteProduct = async (req, res, next) => {
     const removedProduct = await product.remove();
     return res.status(HTTPStatus.OK).json({
       deleted: removedProduct.toObject(),
-      message: 'Product has been deleted.',
+      message: "Product has been deleted.",
     });
   } catch (err) {
     return next(err);
@@ -249,7 +249,7 @@ export const updateProduct = async (req, res, next) => {
     if (!ObjectID.isValid(productId)) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ message: 'Invalid MongoDB ObjectID.' });
+        .json({ message: "Invalid MongoDB ObjectID." });
     }
     const currentProduct = await Product.findById(productId);
     // Set the updated data
@@ -270,13 +270,13 @@ export const getSingleProduct = async (req, res, next) => {
       if (!ObjectID.isValid(productId)) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ message: 'Invalid MongoDB ObjectID.' });
+          .json({ message: "Invalid MongoDB ObjectID." });
       }
       const product = await Product.findById(productId);
       if (!product) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ message: 'A product with that id could not be found.' });
+          .json({ message: "A product with that id could not be found." });
       }
       return res.status(HTTPStatus.OK).json(product);
     } catch (err) {
@@ -290,7 +290,7 @@ export const getSingleProduct = async (req, res, next) => {
       if (!product) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ message: 'A product with that id could not be found.' });
+          .json({ message: "A product with that id could not be found." });
       }
       return res.status(HTTPStatus.OK).json(product);
     } catch (err) {
@@ -300,6 +300,6 @@ export const getSingleProduct = async (req, res, next) => {
   } else {
     return res
       .status(HTTPStatus.BAD_REQUEST)
-      .json({ message: 'Please specify id as a param or slug as a query' });
+      .json({ message: "Please specify id as a param or slug as a query" });
   }
 };
