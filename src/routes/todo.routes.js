@@ -7,7 +7,7 @@ const router = new Router();
 
 router
   .route("/")
-  .get(authJwt, TodoController.fetchTodos)
+  .get(authJwt, TodoController.fetchTodosByUser)
   .post(authJwt, TodoController.createTodo);
 
 router
