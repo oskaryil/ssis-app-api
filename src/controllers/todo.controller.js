@@ -145,4 +145,13 @@ const fetchTodos = async (req, res, next) => {
   }
 };
 
-export { createTodo, deleteTodo, updateTodo, fetchTodos };
+const fetchTodosByUser = async (req, res, next) => {
+  try {
+    const todos = await Todo.find({ createdBy: req.user.id });
+    res.status(200).json(todos);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { createTodo, deleteTodo, updateTodo, fetchTodos, fetchTodosByUser };
