@@ -1,7 +1,6 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
-import request from "superagent";
 
 import User from "../models/user.model";
 import constants from "../config/constants";
