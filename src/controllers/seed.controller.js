@@ -2,11 +2,11 @@
  * Seed controller for fill your db of fake data
  */
 
-import HTTPStatus from 'http-status';
+import HTTPStatus from "http-status";
 
-import User from '../models/user.model';
-import Post from '../models/post.model';
-import { userSeed, deleteUserSeed } from '../seeds/user.seed';
+import User from "../models/user.model";
+import Post from "../models/post.model";
+import { userSeed, deleteUserSeed } from "../seeds/user.seed";
 
 export async function seedUsers(req, res, next) {
   try {
@@ -25,7 +25,7 @@ export async function clearSeedUsers(req, res, next) {
   try {
     await deleteUserSeed();
 
-    return res.status(HTTPStatus.OK).send('User collection empty');
+    return res.status(HTTPStatus.OK).send("User collection empty");
   } catch (e) {
     e.status = HTTPStatus.BAD_REQUEST;
     return next(e);
@@ -44,7 +44,7 @@ export async function clearAll(req, res, next) {
   try {
     await Promise.all([User.remove(), Post.remove()]);
 
-    return res.status(HTTPStatus.OK).send('All collections clear');
+    return res.status(HTTPStatus.OK).send("All collections clear");
   } catch (e) {
     e.status = HTTPStatus.BAD_REQUEST;
     return next(e);

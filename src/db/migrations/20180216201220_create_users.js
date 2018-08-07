@@ -1,22 +1,22 @@
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('users', table => {
+  return knex.schema.createTable("users", table => {
     table.increments();
-    table.string('user_uuid').notNullable();
-    table.string('name');
+    table.string("user_uuid").notNullable();
+    table.string("name");
     table
-      .string('email')
+      .string("email")
       .unique()
       .notNullable();
     table
-      .string('username')
+      .string("username")
       .unique()
       .notNullable();
-    table.string('password').notNullable();
-    table.string('class');
+    table.string("password").notNullable();
+    table.string("class");
     table.timestamps(true, true);
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.dropTable('users');
+  return knex.dropTable("users");
 };

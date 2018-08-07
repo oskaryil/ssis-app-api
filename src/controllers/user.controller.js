@@ -2,15 +2,15 @@
  * User controller
  */
 
-import Joi from 'joi';
-import HTTPStatus from 'http-status';
-import request from 'superagent';
+import Joi from "joi";
+import HTTPStatus from "http-status";
+import request from "superagent";
 
-import { filteredBody } from '../utils/filteredBody';
-import constants from '../config/constants';
-import User from '../models/user.model';
-import { tryCatch } from '../utils/asyncUtils';
-import { updateUserInfo } from '../helpers/auth.helper';
+import { filteredBody } from "../utils/filteredBody";
+import constants from "../config/constants";
+import User from "../models/user.model";
+import { tryCatch } from "../utils/asyncUtils";
+import { updateUserInfo } from "../helpers/auth.helper";
 
 export const validation = {
   create: {
@@ -70,11 +70,11 @@ export async function create(req, res, next) {
   const body = filteredBody(req.body, constants.WHITELIST.users.create);
   try {
     let { res: { text } } = await request
-      .post('https://api.ssis.nu/login/')
+      .post("https://api.ssis.nu/login/")
       .send({ user: body.username, pass: body.password });
     text = JSON.parse(text);
-    if (text.result !== 'OK') {
-      throw new Error('Login fail');
+    if (text.result !== "OK") {
+      throw new Error("Login fail");
     }
     const userData = {
       ...body,
@@ -97,7 +97,7 @@ export const updateInfo = async (req, res, next) => {
     });
     return res
       .status(HTTPStatus.OK)
-      .json({ message: 'Updated user', user: updatedUser });
+      .json({ message: "Updated user", user: updatedUser });
   })(err => {
     next(err);
   });

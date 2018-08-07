@@ -23,28 +23,28 @@
  *
  */
 
-import { Model } from 'objection';
-import { hashSync, compareSync } from 'bcrypt-nodejs';
+import { Model } from "objection";
+import { hashSync, compareSync } from "bcrypt-nodejs";
 
-import constants from '../config/constants';
-import { createToken } from '../helpers/auth.helper';
+import constants from "../config/constants";
+import { createToken } from "../helpers/auth.helper";
 
 export default class User extends Model {
   static get tableName() {
-    return 'users';
+    return "users";
   }
 
   static get jsonSchema() {
     return {
-      type: 'object',
-      required: ['username', 'password', 'email'],
+      type: "object",
+      required: ["username", "password", "email"],
       properties: {
-        id: { type: 'integer' },
-        user_uuid: { type: 'string' },
-        usernane: { type: 'string', minLength: 1, maxLength: 10 },
-        password: { type: 'string' },
-        class: { type: 'string', minLength: 5, maxLength: 5 },
-        name: { type: 'string', minLength: 1, maxLength: 25 },
+        id: { type: "integer" },
+        user_uuid: { type: "string" },
+        usernane: { type: "string", minLength: 1, maxLength: 10 },
+        password: { type: "string" },
+        class: { type: "string", minLength: 5, maxLength: 5 },
+        name: { type: "string", minLength: 1, maxLength: 25 },
       },
     };
   }

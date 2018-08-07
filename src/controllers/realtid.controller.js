@@ -23,9 +23,9 @@
  *
  */
 
-import Joi from 'joi';
+import Joi from "joi";
 
-import { getDepartures } from '../services/realtid';
+import { getDepartures } from "../services/realtid";
 
 export const validation = {
   getDepartures: {
@@ -39,19 +39,19 @@ export const validation = {
 export const getDeparturesForSite = async (req, res) => {
   try {
     const sites = {
-      'kista centrum': 9302,
-      'kista alléväg': 3747,
+      "kista centrum": 9302,
+      "kista alléväg": 3747,
     };
     const site = sites[req.query.site.toLowerCase()];
     const departures = await getDepartures({
       siteId: site,
       timeWindow: req.query.timeWindow,
-      format: 'json',
+      format: "json",
     });
     res.status(200).json(departures);
   } catch (err) {
     return res
       .status(400)
-      .json({ message: 'An error occured', err: err.message });
+      .json({ message: "An error occured", err: err.message });
   }
 };

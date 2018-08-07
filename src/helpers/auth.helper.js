@@ -22,14 +22,14 @@
  * Last modified by oskar on 2018-02-16T14:23:40+01:00
  *
  */
-import uuidv4 from 'uuid/v4';
-import jwt from 'jsonwebtoken';
-import request from 'superagent';
+import uuidv4 from "uuid/v4";
+import jwt from "jsonwebtoken";
+import request from "superagent";
 
-import User from '../models/user.model';
-import formatSSISEmail from '../utils/email';
+import User from "../models/user.model";
+import formatSSISEmail from "../utils/email";
 // import constants from '../config/constants';
-import { tryCatch } from '../utils/asyncUtils';
+import { tryCatch } from "../utils/asyncUtils";
 
 const createToken = ({ userUUID, JWT_SECRET }) =>
   jwt.sign({ user_uuid: userUUID }, JWT_SECRET);
@@ -39,16 +39,16 @@ const setUser = async data => await User.query().insert(data);
 const updateUserById = data => async userId =>
   await User.query()
     .patch(data)
-    .where('id', userId)
-    .returning('*');
+    .where("id", userId)
+    .returning("*");
 
 const loginSSISAPI = async data => {
   let { res: { text } } = await request
-    .post('https://api.ssis.nu/login/')
+    .post("https://api.ssis.nu/login/")
     .send({ user: data.username, pass: data.password });
   text = JSON.parse(text);
-  if (text.result !== 'OK') {
-    throw new Error('Login fail');
+  if (text.result !== "OK") {
+    throw new Error("Login fail");
   }
   return true;
 };

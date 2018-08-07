@@ -1,6 +1,6 @@
-import faker from 'faker';
+import faker from "faker";
 
-import User from '../models/user.model';
+import User from "../models/user.model";
 
 export async function userSeed(count) {
   const users = [];
@@ -10,7 +10,7 @@ export async function userSeed(count) {
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       username: faker.internet.userName(),
       email: faker.internet.email(),
-      password: 'password1',
+      password: "password1",
     };
     return users.push(fakeUser);
   });

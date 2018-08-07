@@ -1,43 +1,43 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const WHITELIST = {
   posts: {
-    create: ['title', 'text'],
-    update: ['title', 'text'],
+    create: ["title", "text"],
+    update: ["title", "text"],
   },
   users: {
-    create: ['email', 'username', 'password', 'name'],
-    updateInfo: ['name', 'class'],
+    create: ["email", "username", "password", "name"],
+    updateInfo: ["name", "class"],
   },
   products: {
     create: [
-      'title',
-      'description',
-      'imageUrl',
-      'price',
-      'currency',
-      'category',
-      'subCategory',
+      "title",
+      "description",
+      "imageUrl",
+      "price",
+      "currency",
+      "category",
+      "subCategory",
     ],
-    delete: ['_id'],
+    delete: ["_id"],
     update: [
-      'title',
-      'description',
-      'imageUrl',
-      'price',
-      'currency',
-      'category',
-      'subCategory',
+      "title",
+      "description",
+      "imageUrl",
+      "price",
+      "currency",
+      "category",
+      "subCategory",
     ],
   },
   orders: {
     create: [
-      'transaction_id',
-      'cart',
-      'shipping_address',
-      'billing_address',
-      'stripeToken',
-      'currency',
+      "transaction_id",
+      "cart",
+      "shipping_address",
+      "billing_address",
+      "stripeToken",
+      "currency",
     ],
   },
 };
@@ -53,7 +53,7 @@ const devConfig = {
 const testConfig = {
   JWT_SECRET: process.env.JWT_SECRET_TEST,
   // MONGO_URL: process.env.MONGO_URL_TEST,
-  MONGO_URL: 'mongodb://localhost/node-ecommerce-test',
+  MONGO_URL: "mongodb://localhost/node-ecommerce-test",
   STRIPE_SECRET: process.env.STRIPE_TEST_SECRET,
   POSTGRES_URL: process.env.POSTGRES_URL_TEST,
 };
@@ -69,16 +69,16 @@ const prodConfig = {
 const defaultConfig = {
   PORT: process.env.PORT || 4000,
   RAVEN_ID: process.env.RAVEN_ID,
-  ENV: process.env.NODE_ENV || 'development',
+  ENV: process.env.NODE_ENV || "development",
   SL_REALTID_API_KEY: process.env.SL_REALTID_API_KEY,
   WHITELIST,
 };
 
 function envConfig(env) {
   switch (env) {
-    case 'development':
+    case "development":
       return devConfig;
-    case 'test':
+    case "test":
       return testConfig;
     default:
       return prodConfig;

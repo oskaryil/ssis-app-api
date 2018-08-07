@@ -4,13 +4,13 @@
  * Configuration for the database
  */
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 // import pg from 'pg-promise';
-import redis from 'redis';
-import { Model } from 'objection';
+import redis from "redis";
+import { Model } from "objection";
 
-import KNEX from '../db/knex';
-import constants from './constants';
+import KNEX from "../db/knex";
+import constants from "./constants";
 
 // Initialize pg-promise
 // const pgp = pg();
@@ -27,7 +27,7 @@ Model.knex(KNEX);
 mongoose.Promise = global.Promise;
 
 // If debug run the mongoose debug options
-mongoose.set('debug', process.env.MONGOOSE_DEBUG);
+mongoose.set("debug", process.env.MONGOOSE_DEBUG);
 
 // Connect the db with the url provide
 try {
@@ -41,8 +41,8 @@ try {
 }
 
 mongoose.connection
-  .once('open', () => console.log('MongoDB Running'))
-  .on('error', e => {
+  .once("open", () => console.log("MongoDB Running"))
+  .on("error", e => {
     throw e;
   });
 

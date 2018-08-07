@@ -22,10 +22,10 @@
  * Last modified by oskar on 2018-02-16T12:54:18+01:00
  *
  */
-import knex from 'knex';
+import knex from "knex";
 
-import constants from '../config/constants';
-import knexConfig from '../../knexfile';
+import constants from "../config/constants";
+import knexConfig from "../../knexfile";
 
 const config = knexConfig[constants.ENV];
 

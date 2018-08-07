@@ -1,8 +1,8 @@
-import stripePackage from 'stripe';
+import stripePackage from "stripe";
 
-import User from '../models/user.model';
-import Transaction from '../models/transaction.model';
-import constants from '../config/constants';
+import User from "../models/user.model";
+import Transaction from "../models/transaction.model";
+import constants from "../config/constants";
 
 const stripe = stripePackage(constants.STRIPE_SECRET);
 

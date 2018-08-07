@@ -1,7 +1,7 @@
-import HTTPStatus from 'http-status';
+import HTTPStatus from "http-status";
 
-import { redisClient } from '../config/database';
-import { getMenu } from '../services/eatery';
+import { redisClient } from "../config/database";
+import { getMenu } from "../services/eatery";
 
 // eslint-disable-next-line
 Date.prototype.getWeek = function() {

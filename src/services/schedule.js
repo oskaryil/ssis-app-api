@@ -23,7 +23,7 @@
  *
  */
 
-import request from 'superagent';
+import request from "superagent";
 
 export async function getFullScheduleForClass(userClass) {
   try {
