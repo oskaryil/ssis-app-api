@@ -93,7 +93,7 @@ const updateTodo = async (req, res, next) => {
       }
 
       if (
-        Object.property.hasOwnProperty.call(newTodoData, "done") &&
+        Object.prototype.hasOwnProperty.call(newTodoData, "done") &&
         isMarkedAsDone
       ) {
         const newMarkedAsDoneEvent = new Event({
@@ -111,8 +111,8 @@ const updateTodo = async (req, res, next) => {
       }
 
       if (
-        Object.property.hasOwnProperty.call(newTodoData, "title") ||
-        Object.property.hasOwnProperty.call(newTodoData, "done")
+        Object.prototype.hasOwnProperty.call(newTodoData, "title") ||
+        Object.prototype.hasOwnProperty.call(newTodoData, "done")
       ) {
         const newUpdateEvent = new Event({ name: eventTypes.UPDATE_TODO });
         await newUpdateEvent.save();
